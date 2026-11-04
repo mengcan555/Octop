@@ -121,3 +121,5 @@ scripts/lh_image_install_octop_tencentos.sh
 .tmp-mfa/
 .tmp-mfa-e2e/
 
+dashboard/pnpm-lock.yaml
+dashboard/package-lock.json
