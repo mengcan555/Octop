@@ -26,7 +26,7 @@ services:
       POSTGRES_PASSWORD: ${OCTOP_PG_PASSWORD:-octop}
       POSTGRES_DB: ${OCTOP_PG_DB:-octop}
     volumes:
-      - octop_pgdata:/var/lib/postgresql/data
+      - ${OCTOP_PG_DATA}:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 5s
