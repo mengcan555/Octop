@@ -20,11 +20,13 @@ services:
     container_name: octop-postgres
     restart: unless-stopped
     ports:
-      - "${OCTOP_PG_PORT:-5432}:5432"
+      - "${OCTOP_PORT:-5432}:5432"
     environment:
-      POSTGRES_USER: ${OCTOP_PG_USER:-octop}
-      POSTGRES_PASSWORD: ${OCTOP_PG_PASSWORD:-octop}
-      POSTGRES_DB: ${OCTOP_PG_DB:-octop}
+      OCTOP_DATABASE_URL: ${OCTOP_DATABASE_URL:-}
+      OCTOP_DATABASE_HOST: ${OCTOP_DATABASE_HOST:-}
+      POSTGRES_USER: ${OCTOP_DATABASE_USER:-octop}
+      POSTGRES_PASSWORD: ${OCTOP_DATABASE_PASSWORD:-octop}
+      POSTGRES_DB: ${OCTOP_DATABASE_NAME:-octop}
     volumes:
       - ${OCTOP_DATA}:/var/lib/postgresql/data
     healthcheck:
