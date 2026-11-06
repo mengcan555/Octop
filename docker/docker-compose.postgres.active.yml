@@ -1,0 +1,36 @@
+# =============================================================================
+# Octop — Docker Compose（国内镜像）
+#
+# 不在本地构建。官方 GHCR（ghcr.io/tencentcloud/octop）拉取失败时用本文件，
+# 镜像来自南京大学 GHCR 源：ghcr.nju.edu.cn/tencentcloud/octop:latest
+#
+# 用法（在仓库根目录执行）:
+#   docker compose -f docker/docker-compose.cn.yml up -d
+#   OCTOP_PORT=9090 docker compose -f docker/docker-compose.cn.yml up -d
+#   OCTOP_DEFAULT_PASSWORD=<your-strong-password> docker compose -f docker/docker-compose.cn.yml up -d
+#
+# 环境变量与 docker-compose.yml 相同。docker/.env 仅用于 Compose 插值；
+# 变量必须列在下方 environment 才会进入容器。
+# =============================================================================
+
+services:
+  
+  postgres:
+    image: postgres:15-alpine
+    container_name: octop-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      OCTOP_DATABASE_URL: ${OCTOP_DATABASE_URL:-}
+      OCTOP_DATABASE_HOST: ${OCTOP_DATABASE_HOST:-}
+      POSTGRES_USER: ${OCTOP_DATABASE_USER:-octop}
+      POSTGRES_PASSWORD: ${OCTOP_DATABASE_PASSWORD:-octop}
+      POSTGRES_DB: ${OCTOP_DATABASE_NAME:-octop}
+    volumes:
+      - ${OCTOP_DATA}:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 10

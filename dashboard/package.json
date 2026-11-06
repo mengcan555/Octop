@@ -34,6 +34,7 @@
     "docx-preview": "^0.3.2",
     "i18next": "^25.8.4",
     "jszip": "^3.10.1",
+    "katex": "^0.19.1",
     "lucide-react": "^0.562.0",
     "mermaid": "^11.13.0",
     "qrcode.react": "^4.2.0",
