@@ -191,7 +191,7 @@ export default defineConfig(({ mode }) => {
           // vendor-antd (incl. the ColorPicker color engine) exceeds the
           // 2 MiB workbox default; raise the precache limit so it stays
           // offline-available instead of silently skipped.
-          maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
+          maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
           // FastAPI already serves the SPA fallback. A Workbox NavigationRoute
           // would Cache-First the old shell; use NetworkFirst below instead.
           navigateFallback: null,
