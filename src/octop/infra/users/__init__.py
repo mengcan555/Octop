@@ -3,7 +3,7 @@
 Contents:
     identity  — ``User`` / ``Role`` / ``UserToken`` dataclasses
     manager   — ``UserManager`` lifecycle (bootstrap admin, create/disable)
-    password  — argon2id password hashing
+    password  — argon2id and bcrypt password hashing
 """
 
 from __future__ import annotations
