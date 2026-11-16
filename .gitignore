@@ -134,3 +134,7 @@ uv.lock
 
 # data
 data/
+
+.cache/
+.local/
+.octop-browser/
