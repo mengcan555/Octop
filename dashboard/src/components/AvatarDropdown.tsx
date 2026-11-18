@@ -340,7 +340,7 @@ export default function AvatarDropdown({
         <ThemeSwitcher compact />
       </div>
 
-      <a
+      {/* <a
         className={styles.menuItem}
         href={HELP_FEEDBACK_URL}
         target="_blank"
@@ -349,7 +349,7 @@ export default function AvatarDropdown({
       >
         <CircleHelp size={16} strokeWidth={1.8} />
         <span>{t("account.helpFeedback")}</span>
-      </a>
+      </a> */}
 
       {onOpenOnboarding ? (
         <button
@@ -362,7 +362,7 @@ export default function AvatarDropdown({
         </button>
       ) : null}
 
-      <a
+      {/* <a
         className={styles.menuItem}
         href={GITHUB_URL}
         target="_blank"
@@ -371,7 +371,7 @@ export default function AvatarDropdown({
       >
         <Github size={16} strokeWidth={1.8} />
         <span>{t("account.projectUrl")}</span>
-      </a>
+      </a> */}
 
       {onCustomizeNav ? (
         <button
