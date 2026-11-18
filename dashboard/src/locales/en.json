@@ -4160,7 +4160,7 @@
       "shellManaged": "The desktop client is updated by its shell, which detects, downloads and installs the shell, frontend and bundled Python runtime as one release.",
       "updateModalTitle": "New Version Available",
       "guideTitle": "Update by install method",
-      "guideIntro": "If the one-click upgrade on the left is unavailable, pick the commands for your install method. Restart after upgrading; data stays in ~/.TeacherBuddy (or OCTOP_HOME).",
+      "guideIntro": "If the one-click upgrade on the left is unavailable, pick the commands for your install method. Restart after upgrading; data stays in ~/.TeacherBuddy (or TeacherBuddy_HOME).",
       "guideDataNote": "Upgrades do not wipe local data: accounts, experts, chats and memory, skills, channels, and model settings live in the working directory. Reinstalling or updating the package keeps using that data.",
       "guide": {
         "ui": {
@@ -6413,7 +6413,7 @@
     "driverSqlite": "SQLite",
     "driverPostgres": "PostgreSQL",
     "sqlitePath": "SQLite file",
-    "sqlitePathHint": "Relative paths are under OCTOP_HOME. Default is TeacherBuddy.db.",
+    "sqlitePathHint": "Relative paths are under TeacherBuddy_HOME. Default is TeacherBuddy.db.",
     "dbHost": "Host",
     "dbPort": "Port",
     "dbName": "Database name",

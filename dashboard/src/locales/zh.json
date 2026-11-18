@@ -4160,7 +4160,7 @@
       "shellManaged": "桌面客户端的更新由壳统一检测、下载并安装：壳、前端界面与内置 Python 运行时随同一版本一起发布。",
       "updateModalTitle": "发现新版本",
       "guideTitle": "按安装方式更新",
-      "guideIntro": "若不能使用左侧一键升级，请按你的安装方式选择下方命令。升级后请重启服务；配置与数据默认保留在 ~/.TeacherBuddy（或 OCTOP_HOME）。",
+      "guideIntro": "若不能使用左侧一键升级，请按你的安装方式选择下方命令。升级后请重启服务；配置与数据默认保留在 ~/.TeacherBuddy（或 TeacherBuddy_HOME）。",
       "guideDataNote": "升级不会清空本机数据：用户账号、专家、对话与记忆、技能、通道与模型配置等均保存在工作目录中，重新安装或更新软件本身即可继续使用。",
       "guide": {
         "ui": {
@@ -6413,7 +6413,7 @@
     "driverSqlite": "SQLite",
     "driverPostgres": "PostgreSQL",
     "sqlitePath": "SQLite 文件",
-    "sqlitePathHint": "相对路径位于 OCTOP_HOME 下，默认 TeacherBuddy.db。",
+    "sqlitePathHint": "相对路径位于 TeacherBuddy_HOME 下，默认 TeacherBuddy.db。",
     "dbHost": "主机",
     "dbPort": "端口",
     "dbName": "数据库名",
