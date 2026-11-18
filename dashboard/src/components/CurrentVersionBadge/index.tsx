@@ -48,16 +48,17 @@ export default function CurrentVersionBadge({
   }
 
   return (
-    <Tooltip title={tooltip} mouseEnterDelay={0.35}>
-      <span
-        className={cx(
-          styles.versionBadge,
-          isMobile && styles.versionBadgeMobile,
-        )}
-        aria-label={tooltip}
-      >
-        {label}
-      </span>
-    </Tooltip>
+    <span></span>
+    // <Tooltip title={tooltip} mouseEnterDelay={0.35}>
+    //   <span
+    //     className={cx(
+    //       styles.versionBadge,
+    //       isMobile && styles.versionBadgeMobile,
+    //     )}
+    //     aria-label={tooltip}
+    //   >
+    //     {label}
+    //   </span>
+    // </Tooltip>
   );
 }
