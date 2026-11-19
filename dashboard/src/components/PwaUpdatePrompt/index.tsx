@@ -33,7 +33,6 @@ export default function PwaUpdatePrompt() {
   const user = useCurrentUser();
   const [visible, setVisible] = useState(false);
   // const [serviceMode, setServiceMode] = useState<string | null>(null);
-  const [ setServiceMode] = useState<string | null>(null);
 
   const canUpdate = userCan(user, "update");
 
@@ -62,7 +61,7 @@ export default function PwaUpdatePrompt() {
     if (!canUpdate) return;
     updateApi
       .getUpdateStatus()
-      .then((s) => setServiceMode(s.service_mode))
+      // .then((s) => setServiceMode(s.service_mode))
       .catch(() => {});
   }, [canUpdate]);
 
