@@ -4,7 +4,7 @@ import { applyUpdate, hasPendingAppUpdate } from "../../pwa";
 import { updateApi } from "../../api/modules/update";
 import { useCurrentUser } from "../../hooks/useCurrentUser";
 import { userCan } from "../../utils/permissions";
-import styles from "./index.module.less";
+// import styles from "./index.module.less";
 
 /**
  * Dismissal flag for the current tab. The waiting Service Worker survives a
@@ -28,7 +28,7 @@ export const PWA_UPDATE_DISMISSED_KEY = "pwa:update-dismissed";
  * so the new Python package takes effect alongside the new frontend bundle.
  */
 export default function PwaUpdatePrompt() {
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
   const user = useCurrentUser();
   const [visible, setVisible] = useState(false);
   const [serviceMode, setServiceMode] = useState<string | null>(null);
@@ -66,24 +66,24 @@ export default function PwaUpdatePrompt() {
 
   if (!visible) return null;
 
-  const handleUpdate = async () => {
-    setVisible(false);
-    // Frontend reload is enough for everyone. Only an operator may restart
-    // the backend service that is serving this page.
-    if (canUpdate && serviceMode) {
-      updateApi.restartService().catch(() => {});
-    }
-    await applyUpdate();
-  };
+  // const handleUpdate = async () => {
+  //   setVisible(false);
+  //   // Frontend reload is enough for everyone. Only an operator may restart
+  //   // the backend service that is serving this page.
+  //   if (canUpdate && serviceMode) {
+  //     updateApi.restartService().catch(() => {});
+  //   }
+  //   await applyUpdate();
+  // };
 
-  const handleDismiss = () => {
-    try {
-      sessionStorage.setItem(PWA_UPDATE_DISMISSED_KEY, "1");
-    } catch {
-      // ignore
-    }
-    setVisible(false);
-  };
+  // const handleDismiss = () => {
+  //   try {
+  //     sessionStorage.setItem(PWA_UPDATE_DISMISSED_KEY, "1");
+  //   } catch {
+  //     // ignore
+  //   }
+  //   setVisible(false);
+  // };
 
   return (
     <></>
