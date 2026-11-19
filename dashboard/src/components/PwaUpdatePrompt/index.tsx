@@ -86,19 +86,20 @@ export default function PwaUpdatePrompt() {
   };
 
   return (
-    <div className={styles.banner} role="alert" aria-live="polite">
-      <span className={styles.icon}>✨</span>
-      <span className={styles.text}>{t("pwa.updateReady")}</span>
-      <button className={styles.btnPrimary} onClick={handleUpdate}>
-        {t("pwa.updateNow")}
-      </button>
-      <button
-        className={styles.btnGhost}
-        onClick={handleDismiss}
-        aria-label={t("pwa.later")}
-      >
-        ✕
-      </button>
-    </div>
+    <></>
+    // <div className={styles.banner} role="alert" aria-live="polite">
+    //   <span className={styles.icon}>✨</span>
+    //   <span className={styles.text}>{t("pwa.updateReady")}</span>
+    //   <button className={styles.btnPrimary} onClick={handleUpdate}>
+    //     {t("pwa.updateNow")}
+    //   </button>
+    //   <button
+    //     className={styles.btnGhost}
+    //     onClick={handleDismiss}
+    //     aria-label={t("pwa.later")}
+    //   >
+    //     ✕
+    //   </button>
+    // </div>
   );
 }
