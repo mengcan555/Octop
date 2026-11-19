@@ -140,7 +140,9 @@ function ChatPageInner() {
   const user = useCurrentUser();
   const { layoutMode } = useLayoutMode();
   const isMinimalLayout = layoutMode === "minimal";
+  const isAdmin = user?.role === "admin";
   const canTerminal = userCan(user, "terminal");
+  // const canAccessWorkspace = !sharedExpertViewer && isAdmin;
   const canConfigureModels = navAllowed(user, "models");
   const chatHistoryRail = useChatHistoryRail();
   const [browserRecording, setBrowserRecording] = useState(false);
@@ -215,6 +217,7 @@ function ChatPageInner() {
   const trajectoryEnabled =
     activeAgent !== null && activeAgent.config?.enable_trajectory !== false;
   const sharedExpertViewer = isSharedExpertViewer(activeAgent ?? {}, user);
+  const canAccessWorkspace = !sharedExpertViewer && isAdmin;
   const isTeamChat = isTeamAgent(activeAgent);
   const isManagedChat = activeAgent?.kind === "managed";
   const [agentProfileOpen, setAgentProfileOpen] = useState(false);
@@ -514,10 +517,12 @@ function ChatPageInner() {
       onOpenBrowser: handleOpenBrowserTab,
     };
     if (!sharedExpertViewer) {
+      handlers.onOpenFiles = openFileList;
+    }
+    if (canAccessWorkspace) {
       handlers.onOpenWorkspace = openWorkspaceTab;
       handlers.workspaceDisabled = !agentChatReady;
       handlers.workspaceDisabledHint = t("workspace.requiresRunning");
-      handlers.onOpenFiles = openFileList;
     }
     if (canTerminal) {
       handlers.onOpenTerminal = openTerminalTab;
@@ -525,12 +530,11 @@ function ChatPageInner() {
     return handlers;
   }, [
     agentChatReady,
+    canAccessWorkspace,
     canTerminal,
     handleOpenBrowserTab,
     openFileList,
     openTerminalTab,
-    openWorkspaceTab,
-    sharedExpertViewer,
     t,
   ]);
 
@@ -1433,7 +1437,7 @@ function ChatPageInner() {
     />
   );
 
-  const sidePanelToggle = !sharedExpertViewer ? (
+  const sidePanelToggle = canAccessWorkspace ? (
     <ChatSidePanelToggle
       open={dockOpen}
       disabled={!agentChatReady}
@@ -1518,7 +1522,7 @@ function ChatPageInner() {
                     >
                       <ProfileIcon size={18} strokeWidth={1.8} />
                     </button>
-                    <button
+                    {isAdmin && (<button
                       className={styles.menuBtn}
                       onClick={toggleWorkspacePanel}
                       disabled={!agentChatReady}
@@ -1531,6 +1535,7 @@ function ChatPageInner() {
                     >
                       <FolderOpen size={18} strokeWidth={1.8} />
                     </button>
+                    )}
                     <button
                       className={styles.menuBtn}
                       onClick={() => void handleToggleBrowserPanel()}
@@ -1708,7 +1713,8 @@ function ChatPageInner() {
                           </button>
                         </span>
                       </Tooltip>
-                      <Tooltip
+                      
+                      {isAdmin && (<Tooltip
                         title={
                           agentChatReady
                             ? t("chat.openWorkspace", "工作区")
@@ -1734,6 +1740,7 @@ function ChatPageInner() {
                           </button>
                         </span>
                       </Tooltip>
+                      )}
                     </>
                   )}
                   {!sharedExpertViewer && panelFilePaths.length > 0 && (

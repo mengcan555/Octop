@@ -211,9 +211,11 @@ const ChatDockPanel: React.FC<ChatDockPanelProps> = ({
 }) => {
   const { t } = useTranslation();
   const currentUser = useCurrentUser();
+  const canAccessWorkspace = currentUser?.role === "admin";
   const [addTabMenuOpen, setAddTabMenuOpen] = useState(false);
   const [workspaceMounted, setWorkspaceMounted] = useState(
-    openTabs.some((tab) => tab.kind === "workspace"),
+    canAccessWorkspace &&
+      openTabs.some((tab) => tab.kind === "workspace"),
   );
   const [browserMounted, setBrowserMounted] = useState(
     openTabs.some((tab) => tab.kind === "browser"),
@@ -246,7 +248,9 @@ const ChatDockPanel: React.FC<ChatDockPanelProps> = ({
   >({});
 
   useEffect(() => {
-    const hasWorkspace = openTabs.some((tab) => tab.kind === "workspace");
+    const hasWorkspace =
+      canAccessWorkspace &&
+      openTabs.some((tab) => tab.kind === "workspace");
     const hasBrowser = openTabs.some((tab) => tab.kind === "browser");
     const hasTerminal = openTabs.some((tab) => tab.kind === "terminal");
     setWorkspaceMounted(hasWorkspace);
@@ -336,7 +340,7 @@ const ChatDockPanel: React.FC<ChatDockPanelProps> = ({
       }
       return changed ? next : prev;
     });
-  }, [openTabs]);
+  }, [openTabs, canAccessWorkspace]);
 
   const handleBrowserRefreshReady = useCallback((refresh: () => void) => {
     browserRefreshRef.current = refresh;
@@ -390,7 +394,11 @@ const ChatDockPanel: React.FC<ChatDockPanelProps> = ({
   const tabBar = (
     <div className={styles.dockTabBar}>
       <div className={styles.dockTabs} role="tablist">
-        {openTabs.map((tab) => {
+        {openTabs
+          .filter(
+            (tab) => canAccessWorkspace || tab.kind !== "workspace",
+          )
+          .map((tab) => {
           const selected = tab.id === (activeTab?.id ?? null);
           const label =
             tab.kind === "files" ? (
@@ -581,7 +589,7 @@ const ChatDockPanel: React.FC<ChatDockPanelProps> = ({
           );
         })}
 
-        {workspaceMounted && (
+        {workspaceMounted && canAccessWorkspace && (
           <div
             className={styles.dockTabBody}
             hidden={activeTab?.kind !== "workspace"}
