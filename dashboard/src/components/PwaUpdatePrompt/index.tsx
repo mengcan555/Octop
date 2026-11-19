@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { applyUpdate, hasPendingAppUpdate } from "../../pwa";
+// import { useTranslation } from "react-i18next";
+// import { applyUpdate, hasPendingAppUpdate } from "../../pwa";
+import { hasPendingAppUpdate } from "../../pwa";
 import { updateApi } from "../../api/modules/update";
 import { useCurrentUser } from "../../hooks/useCurrentUser";
 import { userCan } from "../../utils/permissions";
@@ -31,7 +32,8 @@ export default function PwaUpdatePrompt() {
   // const { t } = useTranslation();
   const user = useCurrentUser();
   const [visible, setVisible] = useState(false);
-  const [serviceMode, setServiceMode] = useState<string | null>(null);
+  // const [serviceMode, setServiceMode] = useState<string | null>(null);
+  const [ setServiceMode] = useState<string | null>(null);
 
   const canUpdate = userCan(user, "update");
 
