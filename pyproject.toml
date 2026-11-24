@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [[tool.uv.index]]
 name = "devpi"
 url = "http://172.18.190.33:3141/root/pypi/+simple/"
-default = true
+#default = true
 
 [project]
 name = "octop"
