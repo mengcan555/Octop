@@ -141,7 +141,7 @@ RUN --mount=type=cache,target=/opt/.cache/uv \
         export UV_INDEX_URL="$PIP_INDEX_URL"; \
         if [ -n "$PIP_TRUSTED_HOST" ]; then export UV_INSECURE_HOST="$PIP_TRUSTED_HOST"; fi; \
     fi \
-    if [ -n "$PIP_EXTRA_INDEX_URL" ]; then \
+    && if [ -n "$PIP_EXTRA_INDEX_URL" ]; then \
         export UV_EXTRA_INDEX_URL="$PIP_EXTRA_INDEX_URL"; \
     fi \
     && case "$OCTOP_IMAGE_VARIANT" in \
@@ -177,7 +177,7 @@ RUN --mount=type=cache,target=/opt/.cache/uv \
         export UV_INDEX_URL="$PIP_INDEX_URL"; \
         if [ -n "$PIP_TRUSTED_HOST" ]; then export UV_INSECURE_HOST="$PIP_TRUSTED_HOST"; fi; \
     fi \
-    if [ -n "$PIP_EXTRA_INDEX_URL" ]; then \
+    && if [ -n "$PIP_EXTRA_INDEX_URL" ]; then \
         export UV_EXTRA_INDEX_URL="$PIP_EXTRA_INDEX_URL"; \
     fi \
     && if [ "$OCTOP_IMAGE_VARIANT" = "lite" ]; then \
