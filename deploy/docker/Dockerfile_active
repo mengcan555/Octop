@@ -92,8 +92,15 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     UV_LINK_MODE=copy \
     UV_PYTHON_DOWNLOADS=never
 
-ARG PIP_INDEX_URL=https://mirrors.cloud.tencent.com/pypi/simple
-ARG PIP_TRUSTED_HOST=mirrors.cloud.tencent.com
+# ARG PIP_INDEX_URL=https://mirrors.cloud.tencent.com/pypi/simple
+# ARG PIP_TRUSTED_HOST=mirrors.cloud.tencent.com
+# ARG APT_MIRROR=mirrors.cloud.tencent.com
+
+# 主源：devpi 内网私有源（优先）
+ARG PIP_INDEX_URL=http://172.18.190.33:3141/root/pypi/+simple/
+ARG PIP_TRUSTED_HOST=172.18.190.33
+# 附加源：腾讯镜像（devpi 未命中时回退查询）
+ARG PIP_EXTRA_INDEX_URL=https://mirrors.cloud.tencent.com/pypi/simple
 ARG APT_MIRROR=mirrors.cloud.tencent.com
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
@@ -128,10 +135,14 @@ WORKDIR /app
 # full：桌面、本地向量、OCR。lite：只留运行所需的 browser extra。
 ARG OCTOP_IMAGE_VARIANT=full
 COPY pyproject.toml uv.lock README.md LICENSE ./
+
 RUN --mount=type=cache,target=/opt/.cache/uv \
     if [ -n "$PIP_INDEX_URL" ]; then \
         export UV_INDEX_URL="$PIP_INDEX_URL"; \
         if [ -n "$PIP_TRUSTED_HOST" ]; then export UV_INSECURE_HOST="$PIP_TRUSTED_HOST"; fi; \
+    fi \
+    if [ -n "$PIP_EXTRA_INDEX_URL" ]; then \
+        export UV_EXTRA_INDEX_URL="$PIP_EXTRA_INDEX_URL"; \
     fi \
     && case "$OCTOP_IMAGE_VARIANT" in \
          full|lite) ;; \
@@ -160,10 +171,14 @@ RUN chmod +x /usr/local/bin/docker-entrypoint.sh /usr/local/bin/bake-desktop.sh
 
 # pynput 在 import 时会连接 X。full 的无头构建只确认包已安装，不加载后端。
 ARG OCTOP_IMAGE_VARIANT=full
+
 RUN --mount=type=cache,target=/opt/.cache/uv \
     if [ -n "$PIP_INDEX_URL" ]; then \
         export UV_INDEX_URL="$PIP_INDEX_URL"; \
         if [ -n "$PIP_TRUSTED_HOST" ]; then export UV_INSECURE_HOST="$PIP_TRUSTED_HOST"; fi; \
+    fi \
+    if [ -n "$PIP_EXTRA_INDEX_URL" ]; then \
+        export UV_EXTRA_INDEX_URL="$PIP_EXTRA_INDEX_URL"; \
     fi \
     && if [ "$OCTOP_IMAGE_VARIANT" = "lite" ]; then \
          uv sync --frozen --no-dev --extra browser \
