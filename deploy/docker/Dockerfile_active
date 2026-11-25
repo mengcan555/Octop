@@ -110,6 +110,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
             "$APT_MIRROR" "$APT_MIRROR" > /etc/apt/sources.list.d/debian.sources; \
     fi \
     && apt-get update && apt-get install -y --no-install-recommends \
+        build-essential \
         libffi-dev \
         libgl1 \
         libglib2.0-0 \
