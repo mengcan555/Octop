@@ -1,13 +1,11 @@
 # =============================================================================
-# Octop — Docker Compose（国内镜像）
+# Teacherbuddy — Docker Compose（国内镜像）
 #
-# 不在本地构建。官方 GHCR（ghcr.io/tencentcloud/octop）拉取失败时用本文件，
-# 镜像来自南京大学 GHCR 源：ghcr.nju.edu.cn/tencentcloud/octop:latest
 #
 # 用法（在仓库根目录执行）:
 #   docker compose -f docker/docker-compose.cn.yml up -d
-#   OCTOP_PORT=9090 docker compose -f docker/docker-compose.cn.yml up -d
-#   OCTOP_DEFAULT_PASSWORD=<your-strong-password> docker compose -f docker/docker-compose.cn.yml up -d
+#   TEACHER_PORT=9090 docker compose -f docker/docker-compose.cn.yml up -d
+#   TEACHER_DEFAULT_PASSWORD=<your-strong-password> docker compose -f docker/docker-compose.cn.yml up -d
 #
 # 环境变量与 docker-compose.yml 相同。docker/.env 仅用于 Compose 插值；
 # 变量必须列在下方 environment 才会进入容器。
@@ -16,30 +14,30 @@
 services:
   
   postgres:
-    image: postgres:15-alpine
-    container_name: octop-postgres
+    image: 172.18.190.33:8088/infra/postgres:15-alpine
+    container_name: teacherbuddy-postgres
     restart: unless-stopped
     ports:
-      - "${OCTOP_PORT:-5432}:5432"
+      - "${TEACHER_PORT:-5432}:5432"
     environment:
-      OCTOP_DATABASE_URL: ${OCTOP_DATABASE_URL:-}
-      OCTOP_DATABASE_HOST: ${OCTOP_DATABASE_HOST:-}
-      POSTGRES_USER: ${OCTOP_DATABASE_USER:-octop}
-      POSTGRES_PASSWORD: ${OCTOP_DATABASE_PASSWORD:-octop}
-      POSTGRES_DB: ${OCTOP_DATABASE_NAME:-octop}
+      TEACHER_DATABASE_URL: ${TEACHER_DATABASE_URL:-}
+      TEACHER_DATABASE_HOST: ${TEACHER_DATABASE_HOST:-}
+      POSTGRES_USER: ${TEACHER_DATABASE_USER:-teacherbuddy}
+      POSTGRES_PASSWORD: ${TEACHER_DATABASE_PASSWORD:-teacherbuddy}
+      POSTGRES_DB: ${TEACHER_DATABASE_NAME:-teacherbuddy}
     volumes:
-      - ${OCTOP_DATA}:/var/lib/postgresql/data
+      - ${TEACHER_DATA}:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 5s
       timeout: 5s
       retries: 10
-  octop:
+  teacherbuddy:
     build:
       context: ../..
       dockerfile: deploy/docker/Dockerfile_active
     image: teacherbuddy:latest
-    container_name: octop
+    container_name: teacherbuddy
     restart: unless-stopped
     ulimits:
       nofile:
@@ -48,25 +46,25 @@ services:
     # Xvnc needs more than Docker's default 64MB /dev/shm after the user enables the desktop.
     shm_size: "1gb"
     ports:
-      - "${OCTOP_PORT:-8088}:${OCTOP_PORT:-8088}"
+      - "${TEACHER_PORT:-8088}:${TEACHER_PORT:-8088}"
     volumes:
-      - ${OCTOP_DATA:-~/.octop}:/data/.octop
+      - ${TEACHER_DATA:-~/.teacherbuddy}:/data/.teacherbuddy
     environment:
       - HOME=/data
-      - OCTOP_BIND_HOST=0.0.0.0
-      - OCTOP_PORT=${OCTOP_PORT:-8088}
-      - OCTOP_LOG_LEVEL=${OCTOP_LOG_LEVEL:-info}
-      - OCTOP_DEFAULT_PASSWORD=${OCTOP_DEFAULT_PASSWORD:-}
-      - OCTOP_ADMIN_USERNAME=${OCTOP_ADMIN_USERNAME:-admin}
-      - OCTOP_ADMIN_DISPLAY_NAME=${OCTOP_ADMIN_DISPLAY_NAME:-Admin}
-      - OCTOP_DATABASE_URL=${OCTOP_DATABASE_URL:-}
-      - OCTOP_DATABASE_DRIVER=${OCTOP_DATABASE_DRIVER:-}
-      - OCTOP_DATABASE_SQLITE_PATH=${OCTOP_DATABASE_SQLITE_PATH:-}
-      - OCTOP_DATABASE_HOST=${OCTOP_DATABASE_HOST:-}
-      - OCTOP_DATABASE_PORT=${OCTOP_DATABASE_PORT:-}
-      - OCTOP_DATABASE_NAME=${OCTOP_DATABASE_NAME:-}
-      - OCTOP_DATABASE_USER=${OCTOP_DATABASE_USER:-}
-      - OCTOP_DATABASE_PASSWORD=${OCTOP_DATABASE_PASSWORD:-}
+      - TEACHER_BIND_HOST=0.0.0.0
+      - TEACHER_PORT=${TEACHER_PORT:-8088}
+      - TEACHER_LOG_LEVEL=${TEACHER_LOG_LEVEL:-info}
+      - TEACHER_DEFAULT_PASSWORD=${TEACHER_DEFAULT_PASSWORD:-}
+      - TEACHER_ADMIN_USERNAME=${TEACHER_ADMIN_USERNAME:-admin}
+      - TEACHER_ADMIN_DISPLAY_NAME=${TEACHER_ADMIN_DISPLAY_NAME:-Admin}
+      - TEACHER_DATABASE_URL=${TEACHER_DATABASE_URL:-}
+      - TEACHER_DATABASE_DRIVER=${TEACHER_DATABASE_DRIVER:-}
+      - TEACHER_DATABASE_SQLITE_PATH=${TEACHER_DATABASE_SQLITE_PATH:-}
+      - TEACHER_DATABASE_HOST=${TEACHER_DATABASE_HOST:-}
+      - TEACHER_DATABASE_PORT=${TEACHER_DATABASE_PORT:-}
+      - TEACHER_DATABASE_NAME=${TEACHER_DATABASE_NAME:-}
+      - TEACHER_DATABASE_USER=${TEACHER_DATABASE_USER:-}
+      - TEACHER_DATABASE_PASSWORD=${TEACHER_DATABASE_PASSWORD:-}
       - OPENAI_API_KEY=${OPENAI_API_KEY:-}
       - DASHSCOPE_API_KEY=${DASHSCOPE_API_KEY:-}
       - LANGFUSE_TRACING_ENABLED=${LANGFUSE_TRACING_ENABLED:-true}
